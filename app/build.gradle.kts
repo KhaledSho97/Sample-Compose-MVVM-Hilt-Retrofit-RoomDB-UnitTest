@@ -70,6 +70,7 @@ dependencies {
     implementation(libs.lifecycle.livedata.ktx)
     implementation(libs.androidx.compose.runtime.livedata)
     implementation(libs.lifecycle.runtime.ktx)
+    implementation(libs.kotlin.reflect)
 
     implementation(libs.activity.compose)
     implementation(platform(libs.compose.bom))
@@ -84,19 +85,24 @@ dependencies {
     debugImplementation(libs.ui.test.manifest)
     kapt(libs.hilt.compiler)
     //Retrofit
-    implementation(libs.retrofit)
-    implementation(libs.converter.gson)
+    implementation(libs.retrofit)/*
+    implementation(libs.converter.gson)*/
     //okHttp
     implementation(libs.okhttp)
     implementation(libs.logging.interceptor)
     //RoomDB
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
-    kapt(libs.room.compiler)
+    ksp(libs.room.compiler)
 
     implementation(libs.accompanist.systemuicontroller)
     implementation(libs.accompanist.navigation.animation)
     implementation(libs.androidx.navigation.compose)
+
+
+    implementation(libs.retrofit.moshi.converter)
+    implementation(libs.moshi)
+    ksp(libs.moshi.kotlin.codegen)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)

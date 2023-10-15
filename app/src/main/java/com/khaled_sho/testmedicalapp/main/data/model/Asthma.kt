@@ -1,6 +1,6 @@
 package com.khaled_sho.testmedicalapp.main.data.model
 
-import java.io.Serializable
+import com.squareup.moshi.JsonClass
 
-
-class Asthma : Serializable
+@JsonClass(generateAdapter = true)
+class Asthma

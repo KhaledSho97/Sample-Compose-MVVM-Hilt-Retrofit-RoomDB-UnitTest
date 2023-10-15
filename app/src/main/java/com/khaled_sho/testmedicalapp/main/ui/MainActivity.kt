@@ -45,6 +45,8 @@ import com.khaled_sho.testmedicalapp.ui.theme.TestMedicalAppTheme
 import com.khaled_sho.testmedicalapp.ui.theme.myPrimaryColor
 import com.khaled_sho.testmedicalapp.ui.theme.myPrimaryColorDark
 import dagger.hilt.android.AndroidEntryPoint
+import java.text.SimpleDateFormat
+import java.util.Date
 
 @AndroidEntryPoint
 class MainActivity : BaseComponentActivity<MainViewModel>() {
@@ -82,7 +84,6 @@ class MainActivity : BaseComponentActivity<MainViewModel>() {
         navController: NavController
     ) {
         val listOfAssociatedDrug = remember { mutableStateListOf<AssociatedDrug>() }
-        viewModel.getProblems()
         LaunchedEffect(viewModel) {
             viewModel.problemsResult.observe(this@MainActivity) {
                 it?.let {
@@ -90,12 +91,12 @@ class MainActivity : BaseComponentActivity<MainViewModel>() {
                         val s =
                             it.problems!![0].diabetes[0].medications[0].medicationsClasses[0]
                                 .className[0].associatedDrug[0].name!!
-
+                        Toast.makeText(this@MainActivity, "Doneee ! $s", Toast.LENGTH_SHORT).show()
                         DummyData(it, listOfAssociatedDrug)
 
-                        Toast.makeText(this@MainActivity, "Doneee ! $s", Toast.LENGTH_SHORT).show()
+
                     }
-                    viewModel.problemsResult.postValue(null)
+                    //viewModel.problemsResult.postValue(null)
                 }
             }
 
@@ -123,10 +124,6 @@ class MainActivity : BaseComponentActivity<MainViewModel>() {
                     actions = {
                         IconButton(onClick = {
                             logout()
-                            /*val sdf =
-                                SimpleDateFormat("'Date\n'dd-MM-yyyy '\n\nand\n\nTime\n'HH:mm:ss z")
-                            val currentDateAndTime = sdf.format(Date()).toString()
-                            navController.navigate("ProfileDetails/khaled/1/$currentDateAndTime")*/
                         }) {
                             Icon(
                                 imageVector = Icons.Filled.ExitToApp,
@@ -151,7 +148,12 @@ class MainActivity : BaseComponentActivity<MainViewModel>() {
                 GroupedList()*/
                 LazyColumn {
                     itemsIndexed(listOfAssociatedDrug) { index, drug ->
-                        ItemDrugCard(drug, onItemClicked = {})
+                        ItemDrugCard(drug, onItemClicked = {
+                            val sdf =
+                                SimpleDateFormat("'Date\n'dd-MM-yyyy '\n\nand\n\nTime\n'HH:mm:ss z")
+                            val currentDateAndTime = sdf.format(Date()).toString()
+                            navController.navigate("ProfileDetails/khaled/1/$currentDateAndTime")
+                        })
                     }
                 }
             }
@@ -163,6 +165,7 @@ class MainActivity : BaseComponentActivity<MainViewModel>() {
         problemsResponse: ProblemsResponse,
         listOfAssociatedDrug: MutableList<AssociatedDrug>
     ) {
+        listOfAssociatedDrug.clear()
         problemsResponse.let {
             it.problems?.let { problems ->
                 if (problems.isNotEmpty()) {

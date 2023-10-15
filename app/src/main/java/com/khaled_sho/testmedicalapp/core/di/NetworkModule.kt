@@ -2,8 +2,9 @@ package com.khaled_sho.testmedicalapp.core.di
 
 import android.util.Log
 import androidx.multidex.BuildConfig
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
+import com.khaled_sho.testmedicalapp.core.base.network.moshiFactories.MyKotlinJsonAdapterFactory
+import com.khaled_sho.testmedicalapp.core.base.network.moshiFactories.MyStandardJsonAdapters
+import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -13,7 +14,7 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
@@ -51,14 +52,18 @@ class NetworkModule {
             .addInterceptor(loggingInterceptor).build()
     }
 
+    @Provides
     @Singleton
-    @Provides
-    fun provideGson(): Gson = GsonBuilder().setLenient().create()
+    fun provideMoshi(): Moshi {
+        return Moshi.Builder()
+            .add(MyStandardJsonAdapters.FACTORY)
+            .add(MyKotlinJsonAdapterFactory()).build()
+    }
 
-
     @Provides
-    fun getRetrofit(gson: Gson): Retrofit {
-        return Retrofit.Builder().addConverterFactory(GsonConverterFactory.create(gson))
+    fun getRetrofit(moshi: Moshi): Retrofit {
+        return Retrofit.Builder()
+            .addConverterFactory(MoshiConverterFactory.create(moshi))
             .baseUrl(BASE_URL + API_VERSION3)
             .client(getOkHttpClient(provideNetworkIntercepted())).build()
     }

@@ -1,7 +1,9 @@
 package com.khaled_sho.testmedicalapp.main.data.model
 
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
+@JsonClass(generateAdapter = true)
 data class Labs(
-    @SerializedName("missing_field") var missingField: String? = null
+    @Json(name = "missing_field") var missingField: String? = null
 )

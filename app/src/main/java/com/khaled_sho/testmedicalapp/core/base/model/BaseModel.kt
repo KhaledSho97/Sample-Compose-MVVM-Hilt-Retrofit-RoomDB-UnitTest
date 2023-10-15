@@ -1,10 +1,12 @@
 package com.khaled_sho.testmedicalapp.core.base.model
 
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
+@JsonClass(generateAdapter = true)
 data class BaseModel<T>(
-    @SerializedName("status") val status: String,
-    @SerializedName("data") val data: T,
-    @SerializedName("message") val message: String,
-    @SerializedName("code") var code: Int?,
+    @Json(name = "status") val status: String,
+    @Json(name = "data") val data: T,
+    @Json(name = "message") val message: String,
+    @Json(name = "code") var code: Int?,
 )

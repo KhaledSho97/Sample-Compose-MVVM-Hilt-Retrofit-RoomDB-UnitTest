@@ -1,9 +1,10 @@
 package com.khaled_sho.testmedicalapp.main.data.model
 
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
-
+@JsonClass(generateAdapter = true)
 data class ClassName(
-    @SerializedName("associatedDrug") var associatedDrug: List<AssociatedDrug> = listOf(),
-    @SerializedName("associatedDrug#2") var associatedDrug2: List<AssociatedDrug> = listOf()
+    @Json(name = "associatedDrug") var associatedDrug: List<AssociatedDrug> = listOf(),
+    @Json(name = "associatedDrug#2") var associatedDrug2: List<AssociatedDrug> = listOf()
 )

@@ -21,6 +21,10 @@ open class MainViewModel @Inject constructor(
 
     val problemsResult = MediatorLiveData<Result<BaseModel<ProblemsResponse>>>()
 
+    init {
+        getProblems()
+    }
+
     fun getProblems() {
         showLoading()
         viewModelScope.launch(exceptionHandler) {

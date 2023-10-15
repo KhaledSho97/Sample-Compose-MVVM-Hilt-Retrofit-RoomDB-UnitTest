@@ -1,8 +1,9 @@
 package com.khaled_sho.testmedicalapp.main.data.model
 
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
-
+@JsonClass(generateAdapter = true)
 data class ProblemsResponse(
-    @SerializedName("problems") var problems: List<Problems>? = listOf(),
+    @Json(name = "problems") var problems: List<Problems>? = listOf(),
 )
