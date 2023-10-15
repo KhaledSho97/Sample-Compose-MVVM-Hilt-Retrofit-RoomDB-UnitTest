@@ -1,4 +1,4 @@
-package com.khaled_sho.testmedicalapp.main.ui
+package com.khaled_sho.testmedicalapp.main.ui.composable
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -10,13 +10,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.khaled_sho.testmedicalapp.main.data.model.AssociatedDrug
@@ -29,9 +29,9 @@ fun ItemDrugCard(drug: AssociatedDrug, onItemClicked: (drug: AssociatedDrug) -> 
             .padding(8.dp)
             .clip(RoundedCornerShape(16.dp))
             .clickable(onClick = { onItemClicked(drug) }),
-        elevation = CardDefaults.cardElevation(0.dp),
+        elevation = CardDefaults.cardElevation(5.dp),
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceVariant,
+            containerColor = Color.Gray //Card content color,e.g.text
         )
     ) {
         Row(
@@ -40,20 +40,24 @@ fun ItemDrugCard(drug: AssociatedDrug, onItemClicked: (drug: AssociatedDrug) -> 
                 .padding(16.dp)
         ) {
 
-            Column(modifier = Modifier.align(Alignment.CenterVertically)) {
+            Column(
+                modifier = Modifier.align(Alignment.CenterVertically)
+            ) {
+                val name = drug.name ?: "drug name"
+                val strength = drug.strength ?: "drug strength"
                 Text(
-                    text = drug.name ?: "name",
+                    text = "Name: $name",
                     modifier = Modifier.padding(0.dp, 0.dp, 12.dp, 0.dp),
-                    color = MaterialTheme.colorScheme.surface,
+                    color = Color.White,
                     fontWeight = FontWeight.Bold,
                     style = typography.labelSmall
                 )
                 Spacer(modifier = Modifier.height(8.dp))
 
                 Text(
-                    text = drug.strength ?: "strength",
+                    text = "Strength: $strength",
                     modifier = Modifier.padding(0.dp, 0.dp, 12.dp, 0.dp),
-                    color = MaterialTheme.colorScheme.surface,
+                    color = Color.White,
                     style = typography.labelSmall
                 )
 

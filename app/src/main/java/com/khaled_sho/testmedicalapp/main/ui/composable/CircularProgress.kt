@@ -1,4 +1,4 @@
-package com.khaled_sho.testmedicalapp.main.ui
+package com.khaled_sho.testmedicalapp.main.ui.composable
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween

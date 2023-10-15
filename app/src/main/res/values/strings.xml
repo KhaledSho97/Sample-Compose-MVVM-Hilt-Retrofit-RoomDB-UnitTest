@@ -1,6 +1,5 @@
 <resources>
-    <string name="app_name">TestMedicalApp</string>
-
+    <string name="app_name">Test Medical App</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="title_activity_splash">SplashActivity</string>
     <string name="login_title">Please enter your email, user name &amp; password.</string>

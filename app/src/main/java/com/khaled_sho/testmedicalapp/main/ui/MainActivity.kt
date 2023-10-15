@@ -8,10 +8,9 @@ import android.widget.Toast
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -24,10 +23,12 @@ import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
@@ -36,17 +37,18 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.khaled_sho.testmedicalapp.R
 import com.khaled_sho.testmedicalapp.core.base.ui.BaseComponentActivity
 import com.khaled_sho.testmedicalapp.core.data.local.UserCache
 import com.khaled_sho.testmedicalapp.landing.ui.SplashActivity
 import com.khaled_sho.testmedicalapp.main.data.model.AssociatedDrug
 import com.khaled_sho.testmedicalapp.main.data.model.ProblemsResponse
+import com.khaled_sho.testmedicalapp.main.ui.composable.MainHeader
+import com.khaled_sho.testmedicalapp.main.ui.composable.ShowList
 import com.khaled_sho.testmedicalapp.ui.theme.TestMedicalAppTheme
 import com.khaled_sho.testmedicalapp.ui.theme.myPrimaryColor
 import com.khaled_sho.testmedicalapp.ui.theme.myPrimaryColorDark
 import dagger.hilt.android.AndroidEntryPoint
-import java.text.SimpleDateFormat
-import java.util.Date
 
 @AndroidEntryPoint
 class MainActivity : BaseComponentActivity<MainViewModel>() {
@@ -104,7 +106,9 @@ class MainActivity : BaseComponentActivity<MainViewModel>() {
 
         SetStatusBarColor(color = myPrimaryColorDark)
         val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
-        val userName = UserCache.user?.userName ?: "User"
+        val userName = remember {
+            mutableStateOf(UserCache.user?.userName ?: "User")
+        }
         Scaffold(
             modifier = Modifier.fillMaxSize(),
             containerColor = Color.White,
@@ -116,7 +120,7 @@ class MainActivity : BaseComponentActivity<MainViewModel>() {
                     ),
                     title = {
                         Text(
-                            "Welcome $userName",
+                            stringResource(id = R.string.app_name),
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis
                         )
@@ -128,7 +132,7 @@ class MainActivity : BaseComponentActivity<MainViewModel>() {
                             Icon(
                                 imageVector = Icons.Filled.ExitToApp,
                                 tint = Color.White,
-                                contentDescription = "Localized description"
+                                contentDescription = "Logout"
                             )
                         }
                     },
@@ -146,18 +150,11 @@ class MainActivity : BaseComponentActivity<MainViewModel>() {
                     animationDuration = 3000
                 )
                 GroupedList()*/
-                LazyColumn {
-                    itemsIndexed(listOfAssociatedDrug) { index, drug ->
-                        ItemDrugCard(drug, onItemClicked = {
-                            val sdf =
-                                SimpleDateFormat("'Date\n'dd-MM-yyyy '\n\nand\n\nTime\n'HH:mm:ss z")
-                            val currentDateAndTime = sdf.format(Date()).toString()
-                            navController.navigate("ProfileDetails/khaled/1/$currentDateAndTime")
-                        })
-                    }
+                Column {
+                    MainHeader(modifier = Modifier, userName.value)
+                    ShowList(navController, modifier = Modifier, listOfAssociatedDrug)
                 }
             }
-
         }
     }
 
