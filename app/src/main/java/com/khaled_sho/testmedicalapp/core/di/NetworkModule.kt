@@ -23,9 +23,8 @@ import javax.inject.Singleton
 class NetworkModule {
 
     companion object {
-        val BASE_URL = "https://sso.majarra.com/"
-        const val API = "api/"
-        const val API_VERSION1 = "v1/"
+        val BASE_URL = "https://run.mocky.io/"
+        const val API_VERSION3 = "v3/"
     }
 
     private fun provideNetworkIntercepted(): Interceptor {
@@ -60,7 +59,7 @@ class NetworkModule {
     @Provides
     fun getRetrofit(gson: Gson): Retrofit {
         return Retrofit.Builder().addConverterFactory(GsonConverterFactory.create(gson))
-            .baseUrl(BASE_URL + API + API_VERSION1)
+            .baseUrl(BASE_URL + API_VERSION3)
             .client(getOkHttpClient(provideNetworkIntercepted())).build()
     }
 }

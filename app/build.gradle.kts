@@ -92,10 +92,11 @@ dependencies {
     //RoomDB
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
-    //annotationProcessor(libs.room.compiler)
     kapt(libs.room.compiler)
 
     implementation(libs.accompanist.systemuicontroller)
+    implementation(libs.accompanist.navigation.animation)
+    implementation(libs.androidx.navigation.compose)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)

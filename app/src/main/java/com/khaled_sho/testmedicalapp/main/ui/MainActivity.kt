@@ -1,49 +1,46 @@
 package com.khaled_sho.testmedicalapp.main.ui
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.tween
-import androidx.compose.foundation.Canvas
+import android.widget.Toast
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.StrokeCap
-import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.TextUnit
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.khaled_sho.testmedicalapp.core.base.ui.BaseComponentActivity
 import com.khaled_sho.testmedicalapp.core.data.local.UserCache
 import com.khaled_sho.testmedicalapp.landing.ui.SplashActivity
-import com.khaled_sho.testmedicalapp.ui.theme.Purple80
+import com.khaled_sho.testmedicalapp.main.data.model.AssociatedDrug
+import com.khaled_sho.testmedicalapp.main.data.model.ProblemsResponse
 import com.khaled_sho.testmedicalapp.ui.theme.TestMedicalAppTheme
 import com.khaled_sho.testmedicalapp.ui.theme.myPrimaryColor
 import com.khaled_sho.testmedicalapp.ui.theme.myPrimaryColorDark
@@ -52,14 +49,63 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : BaseComponentActivity<MainViewModel>() {
 
-
+    @OptIn(ExperimentalAnimationApi::class)
     @Composable
-    fun MainView() {
+    override fun ProvideCompose() {
+        TestMedicalAppTheme {
+            MainNavHost()
+        }
+    }
+
+    @Preview(
+        showBackground = true,
+        uiMode = Configuration.UI_MODE_NIGHT_NO
+    )
+    @Composable
+    override fun ProvideComposeLightPreview() {
+        TestMedicalAppTheme {
+            MainNavHost()
+        }
+    }
+
+    @OptIn(ExperimentalFoundationApi::class)
+    private fun logout() {
+        viewModel.logout()
+        startActivity<SplashActivity>()
+        finish()
+    }
+
+
+    @SuppressLint("SimpleDateFormat")
+    @Composable
+    fun MainView(
+        navController: NavController
+    ) {
+        val listOfAssociatedDrug = remember { mutableStateListOf<AssociatedDrug>() }
+        viewModel.getProblems()
+        LaunchedEffect(viewModel) {
+            viewModel.problemsResult.observe(this@MainActivity) {
+                it?.let {
+                    it.data?.data?.let {
+                        val s =
+                            it.problems!![0].diabetes[0].medications[0].medicationsClasses[0]
+                                .className[0].associatedDrug[0].name!!
+
+                        DummyData(it, listOfAssociatedDrug)
+
+                        Toast.makeText(this@MainActivity, "Doneee ! $s", Toast.LENGTH_SHORT).show()
+                    }
+                    viewModel.problemsResult.postValue(null)
+                }
+            }
+
+        }
+
         SetStatusBarColor(color = myPrimaryColorDark)
         val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
         val userName = UserCache.user?.userName ?: "User"
         Scaffold(
-            modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+            modifier = Modifier.fillMaxSize(),
             containerColor = Color.White,
             topBar = {
                 CenterAlignedTopAppBar(
@@ -75,7 +121,13 @@ class MainActivity : BaseComponentActivity<MainViewModel>() {
                         )
                     },
                     actions = {
-                        IconButton(onClick = { logout() }) {
+                        IconButton(onClick = {
+                            logout()
+                            /*val sdf =
+                                SimpleDateFormat("'Date\n'dd-MM-yyyy '\n\nand\n\nTime\n'HH:mm:ss z")
+                            val currentDateAndTime = sdf.format(Date()).toString()
+                            navController.navigate("ProfileDetails/khaled/1/$currentDateAndTime")*/
+                        }) {
                             Icon(
                                 imageVector = Icons.Filled.ExitToApp,
                                 tint = Color.White,
@@ -88,89 +140,140 @@ class MainActivity : BaseComponentActivity<MainViewModel>() {
             },
         ) { innerPadding ->
             Box(
-                contentAlignment = Alignment.Center,
+                contentAlignment = Alignment.TopCenter,
                 modifier = Modifier.fillMaxSize().padding(innerPadding)
             ) {
-                ShowMyCircularProgress(
+                /*ShowMyCircularProgress(
                     percentage = 0.8f,
                     number = 100,
                     animationDuration = 3000
                 )
+                GroupedList()*/
+                LazyColumn {
+                    itemsIndexed(listOfAssociatedDrug) { index, drug ->
+                        ItemDrugCard(drug, onItemClicked = {})
+                    }
+                }
             }
+
         }
     }
 
-    @Composable
-    override fun ProvideCompose() {
-        TestMedicalAppTheme {
-            MainView()
-        }
-    }
-
-    @OptIn(ExperimentalFoundationApi::class)
-    private fun logout() {
-        viewModel.logout()
-        startActivity<SplashActivity>()
-        finish()
-    }
-
-
-    @Preview(
-        showBackground = true,
-        uiMode = Configuration.UI_MODE_NIGHT_NO
-    )
-    @Composable
-    override fun ProvideComposeLightPreview() {
-        TestMedicalAppTheme {
-            MainView()
-        }
-    }
-
-    @Composable
-    fun ShowMyCircularProgress(
-        percentage: Float,
-        number: Int,
-        fontSize: TextUnit = 28.sp,
-        radius: Dp = 50.dp,
-        color: Color = Color.Green,
-        strokeWidth: Dp = 8.dp,
-        animationDuration: Int = 1000,
-        animationDelay: Int = 0
+    fun DummyData(
+        problemsResponse: ProblemsResponse,
+        listOfAssociatedDrug: MutableList<AssociatedDrug>
     ) {
-        var animationPlayed by remember {
-            mutableStateOf(false)
-        }
-        val curPercentage = animateFloatAsState(
-            targetValue = if (animationPlayed) percentage else 0f,
-            animationSpec = tween(
-                durationMillis = animationDuration,
-                delayMillis = animationDelay
-            ), label = ""
-        )
-
-        LaunchedEffect(key1 = true) {
-            animationPlayed = true
-        }
-        Box(
-            contentAlignment = Alignment.Center,
-            modifier = Modifier.size(radius * 2f)
-        ) {
-            Canvas(modifier = Modifier.size(radius * 2f)) {
-                drawArc(
-                    color = color,
-                    startAngle = -90f,
-                    sweepAngle = 360 * curPercentage.value,
-                    useCenter = false,
-                    style = Stroke(strokeWidth.toPx(), cap = StrokeCap.Round)
-                )
+        problemsResponse.let {
+            it.problems?.let { problems ->
+                if (problems.isNotEmpty()) {
+                    for (problem in it.problems!!) {
+                        if (problem.diabetes.isNotEmpty()) {
+                            for (diabetesItem in problem.diabetes) {
+                                if (diabetesItem.medications.isNotEmpty()) {
+                                    for (medication in diabetesItem.medications) {
+                                        if (medication.medicationsClasses.isNotEmpty()) {
+                                            for (classItem in medication.medicationsClasses) {
+                                                if (classItem.className.isNotEmpty()) {
+                                                    for (classNameItem in classItem.className) {
+                                                        if (classNameItem.associatedDrug.isNotEmpty()) {
+                                                            for (drug in classNameItem.associatedDrug) {
+                                                                listOfAssociatedDrug.add(
+                                                                    drug
+                                                                )
+                                                            }
+                                                        }
+                                                        if (classNameItem.associatedDrug2.isNotEmpty()) {
+                                                            for (drug in classNameItem.associatedDrug2) {
+                                                                listOfAssociatedDrug.add(
+                                                                    drug
+                                                                )
+                                                                listOfAssociatedDrug.add(
+                                                                    drug
+                                                                )
+                                                                listOfAssociatedDrug.add(
+                                                                    drug
+                                                                )
+                                                                listOfAssociatedDrug.add(
+                                                                    drug
+                                                                )
+                                                                listOfAssociatedDrug.add(
+                                                                    drug
+                                                                )
+                                                                listOfAssociatedDrug.add(
+                                                                    drug
+                                                                )
+                                                                listOfAssociatedDrug.add(
+                                                                    drug
+                                                                )
+                                                                listOfAssociatedDrug.add(
+                                                                    drug
+                                                                )
+                                                                listOfAssociatedDrug.add(
+                                                                    drug
+                                                                )
+                                                                listOfAssociatedDrug.add(
+                                                                    drug
+                                                                )
+                                                                listOfAssociatedDrug.add(
+                                                                    drug
+                                                                )
+                                                                listOfAssociatedDrug.add(
+                                                                    drug
+                                                                )
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
-            Text(
-                text = (curPercentage.value * number).toInt().toString(),
-                color = Color.Black,
-                fontSize = fontSize,
-                fontWeight = FontWeight.Bold
-            )
         }
+    }
+
+    @Composable
+    fun MainNavHost() {
+        val navController = rememberNavController()
+        NavHost(
+            navController = navController,
+            startDestination = "MainView",
+        ) {
+            composable(
+                route = "MainView",
+                content = { MainView(navController) },
+            )
+            composable(
+                route = "ProfileDetails/{name}/{userId}/{timestamp}",
+                arguments = listOf(
+                    navArgument("name") {
+                        type = NavType.StringType
+                    },
+                    navArgument("userId") {
+                        type = NavType.StringType
+                    },
+                    navArgument("timestamp") {
+                        type = NavType.StringType
+                    },
+                )
+            ) {
+                val name = it.arguments?.getString("name")!!
+                val userId = it.arguments?.getString("userId")!!
+                val timestamp = it.arguments?.getString("timestamp")!!
+                Greeting(name, userId, timestamp)
+            }
+        }
+    }
+
+    @Composable
+    fun Greeting(name: String, userId: String, timestamp: String) {
+        Text(
+            text = "Welcome $name\nYour Id is: $userId\n$timestamp"
+        )
     }
 
     companion object {

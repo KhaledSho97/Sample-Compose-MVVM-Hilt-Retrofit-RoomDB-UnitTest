@@ -1,8 +1,9 @@
 [versions]
-accompanistSystemuicontroller = "0.27.0"
+accompanistSystemuicontroller = "0.28.0"
 agp = "8.1.1"
 kotlinx-metadata-jvm = "0.5.0"
 kotlin = "1.9.10"
+navigationCompose = "2.7.4"
 org-jetbrains-kotlin-android = "1.9.10"
 navigation = "2.7.3"
 core-ktx = "1.12.0"
@@ -26,6 +27,8 @@ room = "2.6.0-rc01"
 
 [libraries]
 accompanist-systemuicontroller = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanistSystemuicontroller" }
+accompanist-navigation-animation = { module = "com.google.accompanist:accompanist-navigation-animation", version.ref = "accompanistSystemuicontroller" }
+androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 android-multidex = { group = "androidx.multidex", name = "multidex", version.ref = "multidex" }
