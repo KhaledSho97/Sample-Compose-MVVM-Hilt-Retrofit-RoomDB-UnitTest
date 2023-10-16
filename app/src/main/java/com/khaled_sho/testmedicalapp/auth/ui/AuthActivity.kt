@@ -21,6 +21,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -43,6 +44,8 @@ import com.khaled_sho.testmedicalapp.R
 import com.khaled_sho.testmedicalapp.core.base.ui.BaseComponentActivity
 import com.khaled_sho.testmedicalapp.main.ui.MainActivity
 import com.khaled_sho.testmedicalapp.ui.theme.TestMedicalAppTheme
+import com.khaled_sho.testmedicalapp.ui.theme.myPrimaryColor
+import com.khaled_sho.testmedicalapp.ui.theme.myPrimaryColorDark
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -112,18 +115,17 @@ class AuthActivity : BaseComponentActivity<AuthViewModel>() {
             .testTag(stringResource(id = R.string.sign_in))
             .width(dimensionResource(R.dimen.dp_150)),
             colors = ButtonDefaults
-                .buttonColors(MaterialTheme.colorScheme.secondary),
+                .buttonColors(myPrimaryColorDark),
             onClick = { onClick() }) {
-
-            Text(text = stringResource(id = R.string.sign_in).uppercase())
+            Text(
+                text = stringResource(id = R.string.sign_in).uppercase(),
+                style = TextStyle(color = Color.White)
+            )
         }
-
         Spacer(
             modifier = Modifier
                 .height(dimensionResource(R.dimen.dp_30))
         )
-
-
     }
 
 
@@ -137,12 +139,20 @@ class AuthActivity : BaseComponentActivity<AuthViewModel>() {
                 color = Color.Black,
                 fontSize = 16.sp
             ),
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                focusedBorderColor = myPrimaryColorDark
+            ),
             maxLines = 1,
             singleLine = true,
             value = txtPass,
             visualTransformation = PasswordVisualTransformation(),
             onValueChange = { setPass(it) },
-            label = { Text(stringResource(R.string.password)) },
+            label = {
+                Text(
+                    stringResource(R.string.password),
+                    style = TextStyle(color = myPrimaryColorDark)
+                )
+            },
             placeholder = {
                 Text(
                     text = stringResource(R.string.password),
@@ -168,23 +178,23 @@ class AuthActivity : BaseComponentActivity<AuthViewModel>() {
     private fun TopImageAndText() {
         Image(
             modifier = Modifier
-                .padding(top = dimensionResource(id = R.dimen.dp_100))
+                .padding(top = dimensionResource(id = R.dimen.dp_70))
                 .size(dimensionResource(id = R.dimen.dp_100)),
             painter = painterResource(id = R.drawable.medical),
             contentDescription = ""
         )
 
-        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.dp_10)))
+        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.dp_30)))
 
         Text(
             modifier = Modifier.width(IntrinsicSize.Max),
             textAlign = TextAlign.Center,
             text = stringResource(R.string.login_title),
             style = MaterialTheme.typography.headlineMedium,
-            color = MaterialTheme.colorScheme.secondary
+            color = myPrimaryColor
         )
 
-        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.dp_100)))
+        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.dp_60)))
 
 
     }
@@ -196,11 +206,19 @@ class AuthActivity : BaseComponentActivity<AuthViewModel>() {
             .fillMaxWidth()
             .wrapContentHeight(),
             maxLines = 1,
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                focusedBorderColor = myPrimaryColorDark
+            ),
             textStyle = TextStyle(
                 color = Color.Black,
                 fontSize = 16.sp
             ),
-            label = { Text(stringResource(R.string.email_address)) },
+            label = {
+                Text(
+                    stringResource(R.string.email_address),
+                    style = TextStyle(color = myPrimaryColorDark),
+                )
+            },
             singleLine = true,
             value = txtAccountNo,
             onValueChange = { setAcc(it) },
@@ -234,9 +252,17 @@ class AuthActivity : BaseComponentActivity<AuthViewModel>() {
                 fontSize = 16.sp
             ),
             maxLines = 1,
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                focusedBorderColor = myPrimaryColorDark
+            ),
             singleLine = true,
             value = txtAccountNo,
-            label = { Text(stringResource(R.string.user_name)) },
+            label = {
+                Text(
+                    stringResource(R.string.user_name),
+                    style = TextStyle(color = myPrimaryColorDark)
+                )
+            },
             onValueChange = { setAcc(it) },
             placeholder = {
                 Text(

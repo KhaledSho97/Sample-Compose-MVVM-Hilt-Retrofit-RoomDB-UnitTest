@@ -23,6 +23,8 @@ import com.khaled_sho.testmedicalapp.core.base.model.Status
 import com.khaled_sho.testmedicalapp.core.base.ui.BaseComponentActivity
 import com.khaled_sho.testmedicalapp.main.ui.MainActivity
 import com.khaled_sho.testmedicalapp.ui.theme.TestMedicalAppTheme
+import com.khaled_sho.testmedicalapp.ui.theme.myPrimaryColor
+import com.khaled_sho.testmedicalapp.ui.theme.myPrimaryColorDark
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 
@@ -69,7 +71,7 @@ class SplashActivity : BaseComponentActivity<SplashViewModel>() {
                     CircularProgressIndicator(
                         Modifier.testTag(
                             getString(R.string.test_tag_circular_progress)
-                        )
+                        ), color = myPrimaryColor
                     )
                 }
             }
@@ -99,16 +101,15 @@ class SplashActivity : BaseComponentActivity<SplashViewModel>() {
                     .height(dimensionResource(id = R.dimen.dp_120)),
                 contentDescription = ""
             )
-
+            Spacer(modifier = Modifier.height(dimensionResource(R.dimen.dp_50)))
             Text(
                 modifier = Modifier.width(IntrinsicSize.Max),
                 text = stringResource(id = R.string.app_name),
                 textAlign = TextAlign.Center,
-                color = MaterialTheme.colorScheme.secondary,
+                color = myPrimaryColorDark,
                 style = MaterialTheme.typography.headlineLarge
             )
-
-            Spacer(modifier = Modifier.height(dimensionResource(R.dimen.dp_20)))
+            Spacer(modifier = Modifier.height(dimensionResource(R.dimen.dp_50)))
             showLoading()
 
         }
