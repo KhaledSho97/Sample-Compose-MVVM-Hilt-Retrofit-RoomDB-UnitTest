@@ -5,7 +5,7 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class AssociatedDrug(
-    @Json(name = "name") var name: String? = null,
-    @Json(name = "dose") var dose: String? = null,
-    @Json(name = "strength") var strength: String? = null
+    var name: String? = null,
+    var dose: String? = null,
+    var strength: String? = null
 )

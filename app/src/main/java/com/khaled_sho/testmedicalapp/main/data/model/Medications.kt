@@ -5,5 +5,6 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class Medications(
-    @Json(name = "medicationsClasses") var medicationsClasses: List<MedicationsClasses> = listOf()
+    var medicationsClasses:
+    List<Map<String, List<Map<String, List<AssociatedDrug>>>>> = listOf()
 )

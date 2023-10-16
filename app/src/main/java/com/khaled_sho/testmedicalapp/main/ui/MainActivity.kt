@@ -1,10 +1,8 @@
 package com.khaled_sho.testmedicalapp.main.ui
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
-import android.widget.Toast
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
@@ -42,7 +40,6 @@ import com.khaled_sho.testmedicalapp.core.base.ui.BaseComponentActivity
 import com.khaled_sho.testmedicalapp.core.data.local.UserCache
 import com.khaled_sho.testmedicalapp.landing.ui.SplashActivity
 import com.khaled_sho.testmedicalapp.main.data.model.AssociatedDrug
-import com.khaled_sho.testmedicalapp.main.data.model.ProblemsResponse
 import com.khaled_sho.testmedicalapp.main.ui.composable.MainHeader
 import com.khaled_sho.testmedicalapp.main.ui.composable.ShowList
 import com.khaled_sho.testmedicalapp.ui.theme.TestMedicalAppTheme
@@ -79,8 +76,6 @@ class MainActivity : BaseComponentActivity<MainViewModel>() {
         finish()
     }
 
-
-    @SuppressLint("SimpleDateFormat")
     @Composable
     fun MainView(
         navController: NavController
@@ -89,19 +84,13 @@ class MainActivity : BaseComponentActivity<MainViewModel>() {
         LaunchedEffect(viewModel) {
             viewModel.problemsResult.observe(this@MainActivity) {
                 it?.let {
-                    it.data?.data?.let {
-                        val s =
-                            it.problems!![0].diabetes[0].medications[0].medicationsClasses[0]
-                                .className[0].associatedDrug[0].name!!
-                        Toast.makeText(this@MainActivity, "Doneee ! $s", Toast.LENGTH_SHORT).show()
-                        DummyData(it, listOfAssociatedDrug)
-
-
+                    it.data?.data?.let { list ->
+                        listOfAssociatedDrug.clear()
+                        listOfAssociatedDrug.addAll(list)
                     }
                     //viewModel.problemsResult.postValue(null)
                 }
             }
-
         }
 
         SetStatusBarColor(color = myPrimaryColorDark)
@@ -153,84 +142,6 @@ class MainActivity : BaseComponentActivity<MainViewModel>() {
                 Column {
                     MainHeader(modifier = Modifier, userName.value)
                     ShowList(navController, modifier = Modifier, listOfAssociatedDrug)
-                }
-            }
-        }
-    }
-
-    fun DummyData(
-        problemsResponse: ProblemsResponse,
-        listOfAssociatedDrug: MutableList<AssociatedDrug>
-    ) {
-        listOfAssociatedDrug.clear()
-        problemsResponse.let {
-            it.problems?.let { problems ->
-                if (problems.isNotEmpty()) {
-                    for (problem in it.problems!!) {
-                        if (problem.diabetes.isNotEmpty()) {
-                            for (diabetesItem in problem.diabetes) {
-                                if (diabetesItem.medications.isNotEmpty()) {
-                                    for (medication in diabetesItem.medications) {
-                                        if (medication.medicationsClasses.isNotEmpty()) {
-                                            for (classItem in medication.medicationsClasses) {
-                                                if (classItem.className.isNotEmpty()) {
-                                                    for (classNameItem in classItem.className) {
-                                                        if (classNameItem.associatedDrug.isNotEmpty()) {
-                                                            for (drug in classNameItem.associatedDrug) {
-                                                                listOfAssociatedDrug.add(
-                                                                    drug
-                                                                )
-                                                            }
-                                                        }
-                                                        if (classNameItem.associatedDrug2.isNotEmpty()) {
-                                                            for (drug in classNameItem.associatedDrug2) {
-                                                                listOfAssociatedDrug.add(
-                                                                    drug
-                                                                )
-                                                                listOfAssociatedDrug.add(
-                                                                    drug
-                                                                )
-                                                                listOfAssociatedDrug.add(
-                                                                    drug
-                                                                )
-                                                                listOfAssociatedDrug.add(
-                                                                    drug
-                                                                )
-                                                                listOfAssociatedDrug.add(
-                                                                    drug
-                                                                )
-                                                                listOfAssociatedDrug.add(
-                                                                    drug
-                                                                )
-                                                                listOfAssociatedDrug.add(
-                                                                    drug
-                                                                )
-                                                                listOfAssociatedDrug.add(
-                                                                    drug
-                                                                )
-                                                                listOfAssociatedDrug.add(
-                                                                    drug
-                                                                )
-                                                                listOfAssociatedDrug.add(
-                                                                    drug
-                                                                )
-                                                                listOfAssociatedDrug.add(
-                                                                    drug
-                                                                )
-                                                                listOfAssociatedDrug.add(
-                                                                    drug
-                                                                )
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
                 }
             }
         }

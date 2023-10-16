@@ -1,5 +1,6 @@
 package com.khaled_sho.testmedicalapp.main.di
 
+import com.khaled_sho.testmedicalapp.main.data.mapper.ListOfDrugMapper
 import com.khaled_sho.testmedicalapp.main.data.repository.MainRepository
 import com.khaled_sho.testmedicalapp.main.data.repository.MainRepositoryImpl
 import com.khaled_sho.testmedicalapp.main.data.source.api.MainApi
@@ -22,7 +23,7 @@ class MainModule {
     @Provides
     fun provideRepository(
         remoteDataSource: MainRemoteDataSource
-    ): MainRepository = MainRepositoryImpl(remoteDataSource)
+    ): MainRepository = MainRepositoryImpl(remoteDataSource, ListOfDrugMapper())
 
     @Provides
     fun provideUseCase(repository: MainRepository): MainUseCase = MainUseCaseImpl(repository)

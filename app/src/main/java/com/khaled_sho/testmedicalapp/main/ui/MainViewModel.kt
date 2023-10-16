@@ -6,8 +6,7 @@ import com.khaled_sho.testmedicalapp.auth.data.usecase.AuthUseCase
 import com.khaled_sho.testmedicalapp.core.base.model.BaseModel
 import com.khaled_sho.testmedicalapp.core.base.model.Result
 import com.khaled_sho.testmedicalapp.core.base.ui.BaseViewModel
-import com.khaled_sho.testmedicalapp.main.data.model.Problems
-import com.khaled_sho.testmedicalapp.main.data.model.ProblemsResponse
+import com.khaled_sho.testmedicalapp.main.data.model.AssociatedDrug
 import com.khaled_sho.testmedicalapp.main.data.usecase.MainUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -19,7 +18,7 @@ open class MainViewModel @Inject constructor(
     private val mainUseCase: MainUseCase,
 ) : BaseViewModel() {
 
-    val problemsResult = MediatorLiveData<Result<BaseModel<ProblemsResponse>>>()
+    val problemsResult = MediatorLiveData<Result<BaseModel<List<AssociatedDrug>>>>()
 
     init {
         getProblems()

@@ -5,5 +5,5 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class ProblemsResponse(
-    @Json(name = "problems") var problems: List<Problems>? = listOf(),
+    @Json(name = "problems") var problems:  List<Problems>? = listOf(),
 )

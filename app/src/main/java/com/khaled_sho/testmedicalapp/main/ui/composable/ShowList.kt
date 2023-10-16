@@ -22,7 +22,7 @@ fun ShowList(
     LazyColumn(
         modifier = modifier.background(color = Color.White)
     ) {
-        itemsIndexed(listOfAssociatedDrug) { index, drug ->
+        itemsIndexed(listOfAssociatedDrug) { _, drug ->
             ItemDrugCard(drug, onItemClicked = {
                 val sdf =
                     SimpleDateFormat("'Date\n'dd-MM-yyyy '\n\nand\n\nTime\n'HH:mm:ss z")
