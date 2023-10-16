@@ -48,10 +48,12 @@ class SplashActivity : BaseComponentActivity<SplashViewModel>() {
                             when (it.status) {
                                 Status.SUCCESS -> {
                                     startActivity<MainActivity>()
+                                    finish()
                                 }
 
                                 Status.ERROR, Status.AUTHORIZATION -> {
                                     startActivity<AuthActivity>()
+                                    finish()
                                 }
 
                                 else -> {

@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.khaled_sho.testmedicalapp.ui.theme.myPrimaryColor
 
 @Composable
 fun ShowMyCircularProgress(
@@ -29,7 +30,7 @@ fun ShowMyCircularProgress(
     number: Int,
     fontSize: TextUnit = 28.sp,
     radius: Dp = 50.dp,
-    color: Color = Color.Green,
+    color: Color = myPrimaryColor,
     strokeWidth: Dp = 8.dp,
     animationDuration: Int = 1000,
     animationDelay: Int = 0

@@ -28,9 +28,9 @@ fun ShowList(
         LazyColumn(
             modifier = modifier.background(color = Color.White)
         ) {
-            itemsIndexed(listOfAssociatedDrug) { _, drug ->
-                ItemDrugCard(drug, onItemClicked = {
-                    navController.navigate("ProfileDetails/${drug.name}/${drug.strength}/${drug.dose}")
+            itemsIndexed(listOfAssociatedDrug) { index, drug ->
+                ItemDrugCard(index, drug, onItemClicked = { drugItem, image ->
+                    navController.navigate("ProfileDetails/${drugItem.name}/${drugItem.strength}/${drugItem.dose}/${image}")
                 })
             }
         }

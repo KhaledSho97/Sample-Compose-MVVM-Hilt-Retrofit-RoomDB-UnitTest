@@ -39,6 +39,7 @@ import com.khaled_sho.testmedicalapp.core.base.ui.BaseComponentActivity
 import com.khaled_sho.testmedicalapp.core.data.local.UserCache
 import com.khaled_sho.testmedicalapp.landing.ui.SplashActivity
 import com.khaled_sho.testmedicalapp.main.data.model.AssociatedDrug
+import com.khaled_sho.testmedicalapp.main.ui.composable.DetailsView
 import com.khaled_sho.testmedicalapp.main.ui.composable.MainHeader
 import com.khaled_sho.testmedicalapp.main.ui.composable.ShowList
 import com.khaled_sho.testmedicalapp.ui.theme.TestMedicalAppTheme
@@ -130,12 +131,6 @@ class MainActivity : BaseComponentActivity<MainViewModel>() {
                 contentAlignment = Alignment.TopCenter,
                 modifier = Modifier.fillMaxSize().padding(innerPadding)
             ) {
-                /*ShowMyCircularProgress(
-                    percentage = 0.8f,
-                    number = 100,
-                    animationDuration = 3000
-                )
-                GroupedList()*/
                 Column {
                     MainHeader(modifier = Modifier, userName.value)
                     ShowList(navController, modifier = Modifier, diabetesAssociatedDrugs)
@@ -156,7 +151,7 @@ class MainActivity : BaseComponentActivity<MainViewModel>() {
                 content = { MainView(navController) },
             )
             composable(
-                route = "ProfileDetails/{name}/{strength}/{dose}",
+                route = "ProfileDetails/{name}/{strength}/{dose}/{image}",
                 arguments = listOf(
                     navArgument("name") {
                         type = NavType.StringType
@@ -167,22 +162,20 @@ class MainActivity : BaseComponentActivity<MainViewModel>() {
                     navArgument("dose") {
                         type = NavType.StringType
                     },
+                    navArgument("image") {
+                        type = NavType.IntType
+                    },
                 )
             ) {
                 val name = it.arguments?.getString("name")!!
                 val strength = it.arguments?.getString("strength")!!
                 val dose = it.arguments?.getString("dose")!!
-                Greeting(name, strength, dose)
+                val image = it.arguments?.getInt("image")!!
+                DetailsView(Modifier, name, strength, dose, image)
             }
         }
     }
 
-    @Composable
-    fun Greeting(name: String, strength: String, dose: String) {
-        Text(
-            text = "Name is: $name\nStrength is: $strength\nDose is:$dose"
-        )
-    }
 
     companion object {
         @JvmStatic
