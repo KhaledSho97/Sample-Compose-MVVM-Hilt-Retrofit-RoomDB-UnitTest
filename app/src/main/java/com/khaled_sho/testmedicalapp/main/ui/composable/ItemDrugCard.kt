@@ -52,6 +52,9 @@ fun ItemDrugCard(drug: AssociatedDrug, onItemClicked: (drug: AssociatedDrug) -> 
                 val name = drug.name?.ifEmptyOrNull("drug name (Default Value)")
                 val strength = drug.strength?.ifEmptyOrNull("drug strength (Default Value)")
                 val dose = drug.dose?.ifEmptyOrNull("drug dose (Default Value)")
+                drug.name = name
+                drug.strength = strength
+                drug.dose = dose
                 Text(
                     text = "Name: $name",
                     modifier = Modifier.padding(0.dp, 0.dp, 12.dp, 0.dp),

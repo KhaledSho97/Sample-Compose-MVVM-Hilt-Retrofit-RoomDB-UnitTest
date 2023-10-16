@@ -3,7 +3,6 @@ package com.khaled_sho.testmedicalapp.main.ui
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -50,7 +49,6 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : BaseComponentActivity<MainViewModel>() {
 
-    @OptIn(ExperimentalAnimationApi::class)
     @Composable
     override fun ProvideCompose() {
         TestMedicalAppTheme {
@@ -80,15 +78,14 @@ class MainActivity : BaseComponentActivity<MainViewModel>() {
     fun MainView(
         navController: NavController
     ) {
-        val listOfAssociatedDrug = remember { mutableStateListOf<AssociatedDrug>() }
+        val diabetesAssociatedDrugs = remember { mutableStateListOf<AssociatedDrug>() }
         LaunchedEffect(viewModel) {
             viewModel.problemsResult.observe(this@MainActivity) {
                 it?.let {
                     it.data?.data?.let { list ->
-                        listOfAssociatedDrug.clear()
-                        listOfAssociatedDrug.addAll(list)
+                        diabetesAssociatedDrugs.clear()
+                        diabetesAssociatedDrugs.addAll(list)
                     }
-                    //viewModel.problemsResult.postValue(null)
                 }
             }
         }
@@ -141,7 +138,7 @@ class MainActivity : BaseComponentActivity<MainViewModel>() {
                 GroupedList()*/
                 Column {
                     MainHeader(modifier = Modifier, userName.value)
-                    ShowList(navController, modifier = Modifier, listOfAssociatedDrug)
+                    ShowList(navController, modifier = Modifier, diabetesAssociatedDrugs)
                 }
             }
         }
@@ -159,31 +156,31 @@ class MainActivity : BaseComponentActivity<MainViewModel>() {
                 content = { MainView(navController) },
             )
             composable(
-                route = "ProfileDetails/{name}/{userId}/{timestamp}",
+                route = "ProfileDetails/{name}/{strength}/{dose}",
                 arguments = listOf(
                     navArgument("name") {
                         type = NavType.StringType
                     },
-                    navArgument("userId") {
+                    navArgument("strength") {
                         type = NavType.StringType
                     },
-                    navArgument("timestamp") {
+                    navArgument("dose") {
                         type = NavType.StringType
                     },
                 )
             ) {
                 val name = it.arguments?.getString("name")!!
-                val userId = it.arguments?.getString("userId")!!
-                val timestamp = it.arguments?.getString("timestamp")!!
-                Greeting(name, userId, timestamp)
+                val strength = it.arguments?.getString("strength")!!
+                val dose = it.arguments?.getString("dose")!!
+                Greeting(name, strength, dose)
             }
         }
     }
 
     @Composable
-    fun Greeting(name: String, userId: String, timestamp: String) {
+    fun Greeting(name: String, strength: String, dose: String) {
         Text(
-            text = "Welcome $name\nYour Id is: $userId\n$timestamp"
+            text = "Name is: $name\nStrength is: $strength\nDose is:$dose"
         )
     }
 

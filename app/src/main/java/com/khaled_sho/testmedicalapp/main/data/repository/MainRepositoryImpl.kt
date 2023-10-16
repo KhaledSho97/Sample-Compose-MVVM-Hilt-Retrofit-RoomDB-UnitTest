@@ -17,9 +17,9 @@ class MainRepositoryImpl @Inject constructor(
     override suspend fun getProblems() = flow {
         val response = remote.getProblems()
         if (response.isSuccessful) {
-            val list = listMapper.toModel(response.body() as ProblemsResponse)
+            val diabetesAssociatedDrugs = listMapper.toModel(response.body() as ProblemsResponse)
             val baseModel = BaseModel(
-                "success", list, "", 200
+                "success", diabetesAssociatedDrugs, "", 200
             )
             emit(Result.success(baseModel))
         } else {
