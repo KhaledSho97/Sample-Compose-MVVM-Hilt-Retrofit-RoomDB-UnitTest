@@ -20,7 +20,7 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "com.khaled_sho.testmedicalapp.runner.HiltTestRunner"
         vectorDrawables {
             useSupportLibrary = true
         }
@@ -104,11 +104,24 @@ dependencies {
     implementation(libs.moshi)
     ksp(libs.moshi.kotlin.codegen)
 
+
+    //test
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.mockk)
+    testImplementation(libs.androidx.core.testing)
     testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)
     androidTestImplementation(platform(libs.compose.bom))
     androidTestImplementation(libs.ui.test.junit4)
     debugImplementation(libs.ui.tooling)
     debugImplementation(libs.ui.test.manifest)
+
+    //integration test
+    androidTestImplementation(libs.androidx.test.ext.junit)
+    testImplementation(libs.hilt.android.testing)
+    androidTestImplementation(libs.hilt.android.testing)
+    kaptTest(libs.hilt.compiler)
+    kaptAndroidTest(libs.hilt.compiler)
+
+
 }

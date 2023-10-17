@@ -3,7 +3,6 @@ buildscript {
     dependencies {
         classpath("com.android.tools.build:gradle:${libs.versions.android.gradle}")
         //classpath ("com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin:1.7.0-1.0.6")
-
     }
 }
 

@@ -25,6 +25,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -97,7 +98,7 @@ class MainActivity : BaseComponentActivity<MainViewModel>() {
             mutableStateOf(UserCache.user?.userName ?: "User")
         }
         Scaffold(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier.fillMaxSize().testTag(stringResource(id = R.string.main_view_tag)),
             containerColor = Color.White,
             topBar = {
                 CenterAlignedTopAppBar(

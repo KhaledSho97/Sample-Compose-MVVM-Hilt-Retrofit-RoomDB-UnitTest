@@ -103,8 +103,6 @@ class AuthActivity : BaseComponentActivity<AuthViewModel>() {
         ) {
             childrenCompose()
         }
-
-
     }
 
 
