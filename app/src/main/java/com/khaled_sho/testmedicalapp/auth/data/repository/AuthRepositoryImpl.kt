@@ -3,6 +3,7 @@ package com.khaled_sho.testmedicalapp.auth.data.repository
 import com.khaled_sho.testmedicalapp.auth.data.model.User
 import com.khaled_sho.testmedicalapp.auth.data.source.local.AuthLocalDataSource
 import com.khaled_sho.testmedicalapp.core.base.model.Result
+import com.khaled_sho.testmedicalapp.core.base.model.Success
 import com.khaled_sho.testmedicalapp.core.data.local.UserCache
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
@@ -22,8 +23,9 @@ class AuthRepositoryImpl @Inject constructor(
         local.insertUser(user)
     }
 
-    override suspend fun logout() {
+    override suspend fun logout() = flow {
         local.deleteAllUsers()
+        emit(Success(true))
     }
 
     override suspend fun getLoggedUser(user_: User) = flow {

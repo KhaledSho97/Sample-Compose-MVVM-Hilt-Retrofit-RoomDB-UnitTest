@@ -134,7 +134,7 @@ class MainActivity : BaseComponentActivity<MainViewModel>() {
             ) {
                 Column {
                     MainHeader(modifier = Modifier, userName.value)
-                    ShowList(navController, modifier = Modifier, diabetesAssociatedDrugs)
+                    ShowList(navController, listOfAssociatedDrug = diabetesAssociatedDrugs)
                 }
             }
         }

@@ -82,6 +82,8 @@ dependencies {
     //Hilt Dependency injection
     implementation(libs.android.multidex)
     implementation(libs.android.hilt)
+    implementation(libs.androidx.navigation.testing)
+    testImplementation(project(mapOf("path" to ":app")))
     debugImplementation(libs.ui.test.manifest)
     kapt(libs.hilt.compiler)
     //Retrofit

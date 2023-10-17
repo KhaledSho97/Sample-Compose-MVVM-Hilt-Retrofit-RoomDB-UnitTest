@@ -1,6 +1,7 @@
 package com.khaled_sho.testmedicalapp.auth.data.repository
 
 import com.khaled_sho.testmedicalapp.auth.data.model.User
+import com.khaled_sho.testmedicalapp.core.base.model.Resource
 import kotlinx.coroutines.flow.Flow
 import com.khaled_sho.testmedicalapp.core.base.model.Result
 
@@ -11,5 +12,5 @@ interface AuthRepository {
     suspend fun updateUser(user: User)
     suspend fun insertUser(user: User)
     suspend fun deleteUser(user: User): Int
-    suspend fun logout()
+    suspend fun logout(): Flow<Resource<Boolean>>
 }
