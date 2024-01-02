@@ -197,10 +197,14 @@ val users: List<User> = userDao.getAll()
 ## Unit test
 Why do we need a Unit test if we can test it manually on the device, Unit testing has several benefits
 
-1)it enforces you to have a good app architecture without good architecture you can't Unit test
-2)let say you have added functionality to a class that already has its unit test in place, now you will verify by running all existing Tests so to check that you did not break anything else when adding new Functionality, it gives you confidence that your code is working.
-3)There are  2 cases where a Unit test Fails
-i)when it does not meet the requirement (when we write the test the first time)
-ii)when the requirement is changed (then you have to change test cases as well)
+1) it enforces you to have a good app architecture without good architecture you can't Unit test
+
+2) let say you have added functionality to a class that already has its unit test in place, now you will verify by running all existing Tests so to check that you did not break anything else when adding new Functionality, it gives you confidence that your code is working.
+
+3) There are  2 cases where a Unit test Fails:
+
+    i) when it does not meet the requirement (when we write the test the first time)
+    
+    ii) when the requirement is changed (then you have to change test cases as well)
 
 Don't pass context in viewmodel it makes it easier to test.
