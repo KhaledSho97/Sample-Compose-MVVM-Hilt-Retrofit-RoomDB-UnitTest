@@ -4,8 +4,8 @@
 Jetpack Compose is a modern toolkit for building native Android UI.
 Jetpack Compose simplifies and accelerates UI development on Android with less code, powerful tools, and intuitive Kotlin APIs.
 
-Installation: This section should provide the instructions on how to set up Jetpack Compose in your Android project,
-such as the required dependencies, plugins, and configurations. For example, you can write something like this:
+Installation:
+
 ```Gradle
 android {
     buildFeatures {
@@ -30,7 +30,6 @@ dependencies {
     // or only import the main APIs for the underlying toolkit systems
 }
 ```
-Usage: This section should provide examples of using Jetpack Compose to create UI components, such as composable functions, layouts, themes, animations, etc.
 
 ## MVVM
 App Architecture is a way of designing and organizing the code of an app, following some principles and best practices.
@@ -46,10 +45,10 @@ So I used MVVM architectures to build this project.
 ## Hilt
 Hilt is a dependency injection library for Android that reduces the boilerplate of doing manual dependency injection in your project. Dependency injection is a technique that helps you create more modular, testable, and maintainable code by providing the dependencies of your classes instead of creating them yourself. Hilt is built on top of Dagger, a popular dependency injection framework, and provides some benefits such as:
 
-Simplified setup and configuration of Dagger components and modules.
-Automatic injection of Android classes, such as activities, fragments, view models, etc.
-Integration with Jetpack libraries, such as Navigation, WorkManager, Compose, etc.
-Enhanced testing and debugging capabilities.
+- Simplified setup and configuration of Dagger components and modules.
+- Automatic injection of Android classes, such as activities, fragments, view models, etc.
+- Integration with Jetpack libraries, such as Navigation, WorkManager, Compose, etc.
+- Enhanced testing and debugging capabilities.
 
 To implement Hilt in your Android app, you need to follow these steps:
 
@@ -64,9 +63,9 @@ Use constructor injection, field injection, or @EntryPoint to inject your depend
 
 Retrofit is a library that allows you to make HTTP requests from a Java or Android application. It can convert the response data into Java objects using various converters. To use Retrofit, you need to do the following steps:
 
-Define an interface that represents your API endpoints and annotate them with the HTTP method, URL, and parameters.
-Create a Retrofit instance using the builder pattern and specify the base URL and the converter you want to use.
-Use the Retrofit instance to create an implementation of your interface and call the methods to make the requests.
+1- Define an interface that represents your API endpoints and annotate them with the HTTP method, URL, and parameters.
+2- Create a Retrofit instance using the builder pattern and specify the base URL and the converter you want to use.
+3- Use the Retrofit instance to create an implementation of your interface and call the methods to make the requests.
 For example, if you want to use Retrofit to access the GitHub API, you could write something like this:
 
 ```Kotlin
