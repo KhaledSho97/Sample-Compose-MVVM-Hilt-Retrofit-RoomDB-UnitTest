@@ -64,8 +64,11 @@ Use constructor injection, field injection, or @EntryPoint to inject your depend
 Retrofit is a library that allows you to make HTTP requests from a Java or Android application. It can convert the response data into Java objects using various converters. To use Retrofit, you need to do the following steps:
 
 1- Define an interface that represents your API endpoints and annotate them with the HTTP method, URL, and parameters.
+
 2- Create a Retrofit instance using the builder pattern and specify the base URL and the converter you want to use.
+
 3- Use the Retrofit instance to create an implementation of your interface and call the methods to make the requests.
+
 For example, if you want to use Retrofit to access the GitHub API, you could write something like this:
 
 ```Kotlin
